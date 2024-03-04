@@ -1,4 +1,4 @@
-from colors import Colors
+from classes.colors import Colors
 
 class Player:
     def __init__(self, name):
@@ -9,7 +9,6 @@ class Player:
         current_room = room_list[self.location]
         if direction in current_room.exits:
             self.location = current_room.exits[direction]
-            print(self.location.description)
-            #call player prompt
+            print(room_list[self.location].description)
         else:
             print("You cannot go that way.")
