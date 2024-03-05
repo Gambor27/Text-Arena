@@ -9,6 +9,6 @@ class Player:
         current_room = room_list[self.location]
         if direction in current_room.exits:
             self.location = current_room.exits[direction]
-            print(room_list[self.location].description)
+            print(f'{Colors.fg.cyan}{Colors.bold}{room_list[self.location].name} \n {Colors.reset}{room_list[self.location].description}')
         else:
             print("You cannot go that way.")

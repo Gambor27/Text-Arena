@@ -2,7 +2,7 @@ from classes.colors import Colors
 from classes.player import Player
 from classes.locations import Location
 from classes.game import Game
-
+import json
 
 def build_room(room_id, name, exits, description, room_list):
     room = Location(name, exits, description)
@@ -15,12 +15,19 @@ def prompt(player, game):
             break
         player.move(command, game.rooms)
 
+def load_map(filename):
+    with open(filename, 'r') as data:
+        map = json.load(data)
+    return map['rooms']
+
 def main():
     game = Game()
     player = Player("Testman")
-    build_room(0, 'starting_room', {"east" : 1}, "A small room", game.rooms)
-    build_room(1, "other_room", {"west" : 0}, "Another small room", game.rooms)
-    print(game.rooms[player.location].description)
+    map_data = load_map("data/rooms.json")
+    for room_id, room_data in map_data.items():
+        build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
+    #print(game.rooms[player.location].description)
+    print(f'{Colors.fg.cyan}{Colors.bold}{game.rooms[player.location].name} \n {Colors.reset}{game.rooms[player.location].description}')
     prompt(player, game)
 
 
