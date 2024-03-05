@@ -12,3 +12,12 @@ class Player:
             print(f'{Colors.fg.cyan}{Colors.bold}{room_list[self.location].name} \n {Colors.reset}{room_list[self.location].description}')
         else:
             print("You cannot go that way.")
+    
+    def look(self, room_list, direction=None):
+        current_room = room_list[self.location]
+        if direction in current_room.exits:
+            print(f'{Colors.fg.cyan}{Colors.bold}{room_list[current_room.exits[direction]].name} \n {Colors.reset}{room_list[current_room.exits[direction]].description}')
+        elif direction is None:
+            print(f'{Colors.fg.cyan}{Colors.bold}{room_list[self.location].name} \n {Colors.reset}{room_list[self.location].description}')
+        else:
+            print("There is nothing to see in that direction.")

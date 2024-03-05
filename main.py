@@ -11,9 +11,16 @@ def build_room(room_id, name, exits, description, room_list):
 def prompt(player, game):
     while 1 > 0:
         command = input(f"{Colors.fg.green}[{player.name}]:{Colors.reset}")
+        parsed = command.split()
         if command == "exit":
             break
-        player.move(command, game.rooms)
+        elif parsed[0] == "look":
+            if len(parsed) > 1:
+                player.look(game.rooms, parsed[1])
+            else:
+                player.look(game.rooms)
+        else:
+            player.move(command, game.rooms)
 
 def load_map(filename):
     with open(filename, 'r') as data:
