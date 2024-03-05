@@ -3,7 +3,7 @@ from classes.colors import Colors
 class Game:
     def __init__(self):
         self.rooms = {}
-        self.enemies = {}
+        self.enemies = []
         self.current_location = 0
     
     def get_enemies_at_location(self, room_id):
@@ -17,7 +17,7 @@ class Game:
             if self.current_location == 1 and len(self.enemies) > 0:
                 also_here = ""
                 for enemy in self.enemies:
-                    also_here += self.enemies[enemy].name + " "
+                    also_here += enemy.name + " "
                 print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
         else:
             print("You cannot go that way.")
@@ -29,14 +29,14 @@ class Game:
             if current_room.exits[direction] == 1 and len(self.enemies) > 0:
                 also_here = ""
                 for enemy in self.enemies:
-                    also_here += self.enemies[enemy].name + " "
+                    also_here += enemy.name + " "
                 print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
         elif direction is None:
             print(self.render_room_description(self.current_location))
             if self.current_location == 1 and len(self.enemies) > 0:
                 also_here = ""
                 for enemy in self.enemies:
-                    also_here += self.enemies[enemy].name + " "
+                    also_here += enemy.name + " "
                 print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
         else:
             print(f"There is nothing to see to the {direction}.")
