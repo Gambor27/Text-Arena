@@ -10,7 +10,9 @@ def build_room(room_id, name, exits, description, room_list):
    
 def prompt(player, game):
     while 1 > 0:
-        command = input(f"{Colors.fg.green}[{player.name}]:{Colors.reset}")
+        command = input(Colors.fg.green + 
+                        f'[{player.name}]:' +
+                        Colors.reset)
         parsed = command.split()
         if command == "exit":
             break
@@ -33,8 +35,10 @@ def main():
     map_data = load_map("data/rooms.json")
     for room_id, room_data in map_data.items():
         build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
-    #print(game.rooms[player.location].description)
-    print(f'{Colors.fg.cyan}{Colors.bold}{game.rooms[player.location].name} \n {Colors.reset}{game.rooms[player.location].description}')
+    print(Colors.fg.cyan + Colors.bold + 
+          game.rooms[player.location].name +  "\n" + 
+          Colors.reset + 
+          game.rooms[player.location].description)
     prompt(player, game)
 
 
