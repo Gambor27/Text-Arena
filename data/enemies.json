@@ -1,18 +1,16 @@
 {
-    "enemies": {
-      "0": {
+    "enemies": [{
         "name": "Goblin",
         "hp": 25,
         "min_damage": 5,
         "max_damage": 10,
         "armor": 0
-      },
-      "1": {
+      },{
         "name": "Goblin2",
         "hp": 25,
         "min_damage": 5,
         "max_damage": 10,
         "armor": 0
       }
-    }
+    ]
   }

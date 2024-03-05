@@ -23,7 +23,7 @@ def build_map(map_data, game):
             build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
 
 def populate_map(enemy_data, game):
-    for enemy_id, enemy_stat in enemy_data.items():
+    for enemy_stat in enemy_data:
         build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
 
 
