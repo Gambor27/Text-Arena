@@ -2,12 +2,32 @@ from classes.colors import Colors
 from classes.player import Player
 from classes.locations import Location
 from classes.game import Game
+from classes.enemies import Enemy
 import json
 
 def build_room(room_id, name, exits, description, room_list):
     room = Location(name, exits, description)
     room_list[room_id] = room
-   
+
+def build_enemy(enemy_id, name, hp, min_damage, max_damage, armor, enemy_list):
+    enemy = Enemy(name, hp, min_damage, max_damage, armor)
+    enemy_list[enemy_id] = enemy
+
+def load_file(filename, output):
+    with open(filename, 'r') as data:
+        data = json.load(data)
+    return data[output]
+
+def build_map(map_data, game):
+        for room_id, room_data in map_data.items():
+            build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
+
+def populate_map(enemy_data, game):
+    print(enemy_data)
+    for enemy_id, enemy_stat in enemy_data.items():
+        build_enemy(int(enemy_id), enemy_stat['name'], enemy_stat['hp'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
+
+
 def prompt(player, game):
     while 1 > 0:
         command = input(Colors.fg.green + 
@@ -18,27 +38,20 @@ def prompt(player, game):
             break
         elif parsed[0] == "look":
             if len(parsed) > 1:
-                player.look(game.rooms, parsed[1])
+                game.look(parsed[1])
             else:
-                player.look(game.rooms)
+                game.look()
         else:
-            player.move(command, game.rooms)
-
-def load_map(filename):
-    with open(filename, 'r') as data:
-        map = json.load(data)
-    return map['rooms']
+            game.move(command)
 
 def main():
     game = Game()
     player = Player("Testman")
-    map_data = load_map("data/rooms.json")
-    for room_id, room_data in map_data.items():
-        build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
-    print(Colors.fg.cyan + Colors.bold + 
-          game.rooms[player.location].name +  "\n" + 
-          Colors.reset + 
-          game.rooms[player.location].description)
+    map_data = load_file("data/rooms.json", "rooms")
+    enemy_data = load_file("data/enemies.json", "enemies")
+    build_map(map_data, game)
+    populate_map(enemy_data, game)
+    print(game.render_room_description(game.current_location))
     prompt(player, game)
 
 
