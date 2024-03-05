@@ -9,8 +9,8 @@ def build_room(room_id, name, exits, description, room_list):
     room = Location(name, exits, description)
     room_list[room_id] = room
 
-def build_enemy(name, hp, min_damage, max_damage, armor, enemy_list):
-    enemy = Enemy(name, hp, min_damage, max_damage, armor)
+def build_enemy(name, hp, hit_chance, min_damage, max_damage, armor, enemy_list):
+    enemy = Enemy(name, hp, hit_chance, min_damage, max_damage, armor)
     enemy_list.append(enemy)
 
 def load_file(filename, output):
@@ -24,7 +24,7 @@ def build_map(map_data, game):
 
 def populate_map(enemy_data, game):
     for enemy_stat in enemy_data:
-        build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
+        build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['hit_chance'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
 
 
 def prompt(player, game):

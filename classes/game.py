@@ -15,10 +15,7 @@ class Game:
             self.current_location = current_room.exits[direction]
             print(self.render_room_description(self.current_location))
             if self.current_location == 1 and len(self.enemies) > 0:
-                also_here = ""
-                for enemy in self.enemies:
-                    also_here += enemy.name + " "
-                print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
+                print(self.render_enemies())
         else:
             print("You cannot go that way.")
     
@@ -27,17 +24,11 @@ class Game:
         if direction in current_room.exits:
             print(self.render_room_description(current_room.exits[direction]))
             if current_room.exits[direction] == 1 and len(self.enemies) > 0:
-                also_here = ""
-                for enemy in self.enemies:
-                    also_here += enemy.name + " "
-                print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
+                print(self.render_enemies())
         elif direction is None:
             print(self.render_room_description(self.current_location))
             if self.current_location == 1 and len(self.enemies) > 0:
-                also_here = ""
-                for enemy in self.enemies:
-                    also_here += enemy.name + " "
-                print(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
+                print(self.render_enemies())
         else:
             print(f"There is nothing to see to the {direction}.")
     
@@ -46,3 +37,9 @@ class Game:
                   self.rooms[room_id].name + "\n" + 
                   Colors.reset + 
                   self.rooms[room_id].description)
+    
+    def render_enemies(self):
+        also_here = ""
+        for enemy in self.enemies:
+            also_here += enemy.name + " "
+        return(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here)
