@@ -47,6 +47,9 @@ def combat(command, player, game):
                     combat_on = player_result[1]
                     print(player_result[0])
                     if combat_on == False:
+                        game.current_location = 3
+                        player.current_hp = player.max_hp
+                        print(Colors.fg.cyan + "You are dragged to the healer, who cures your wounds" + Colors.reset)
                         return
     print(f"{command[1]} is not here")
 
