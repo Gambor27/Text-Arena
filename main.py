@@ -82,6 +82,7 @@ def main():
     game.enemy_data = load_file("data/enemies.json", "enemies")
     build_map(map_data, game)
     print(game.render_room_description(game.current_location))
+    print(game.render_directions())
     prompt(player, game)
 
 

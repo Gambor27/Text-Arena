@@ -1,14 +1,24 @@
 {
     "rooms": {
       "0": {
-        "name": "An Extravagant House",
-        "exits": {"east": 1},
-        "description": "You stand at the entrance to a large manor house.  All around you, people bustle and work.  Through the open door, you can hear someone singing inside."
+        "name": "Town Square",
+        "exits": {"east": 1, "north": 2, "south": 3},
+        "description": "You stand in the town square.  To the north, you see an arms and armor shop.  To the south lies the local healer's hut.  And to the east is the beating heart of this town.  A large combat arena, drawing people from miles around to test themlseves.  People like you."
       },
       "1": {
-        "name": "Music Room",
+        "name": "A Blood Spattered Arena",
         "exits": {"west": 0},
-        "description": "Making your way towards the signing, you find the lord of the manor at a grand piano.  He is in the middle of a rendition of \"Greensleeves\" when you enter"
+        "description": "Here is where the strong come to test themselves.  You feel the excitment of battle well up as you approach.  Just when you reach the combat field, the Master of Ceremonies waves a hand.  Someone unseen raises the portcullis, releasing your foe."
+      },
+      "2": {
+        "name": "A Bustling Shop",
+        "exits": {"south": 0},
+        "description": "This shop exists to serve the needs of all the adventurers who have come to test themselves in the arena.  It carries a fine selection of quality arms and armor"
+      },
+      "3": {
+        "name": "The Healers Hut",
+        "exits": {"north": 0},
+        "description": "This well stocked hut has an odd astringent smell.  The healer himself bustles around, barely taking time to glance at you as you enter"
       }
     }
   }
