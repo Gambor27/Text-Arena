@@ -36,17 +36,15 @@ def combat(command, player, game):
                     if command[1] == enemy.name:
                         player_damage = player.deal_damage()
                         enemy_result = enemy.take_damage(player_damage)
-                        combat_on = enemy_result[1]
                         print(enemy_result[0])                        
-                        if combat_on == False:
+                        if not enemy_result[1]:
                             player.gain_exp(enemy.exp_value)
                             game.enemies.remove(enemy)                            
                             return
                     enemy_damage = enemy.deal_damage()
                     player_result = player.take_damage(enemy, enemy_damage)
-                    combat_on = player_result[1]
                     print(player_result[0])
-                    if combat_on == False:
+                    if not player_result[1]:
                         game.current_location = 3
                         player.current_hp = player.max_hp
                         print(Colors.fg.cyan + "You are dragged to the healer, who cures your wounds" + Colors.reset)
