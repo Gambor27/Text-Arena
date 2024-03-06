@@ -10,6 +10,8 @@ class Player:
         self.max_damage = 15
         self.min_damage = 5
         self.armor = 1
+        self.exp = 0
+        self.level = 1
 
     def deal_damage(self):
         if random.randint(0,100) < (self.hit_chance * 100):
@@ -27,3 +29,16 @@ class Player:
                 return [f'{Colors.bg.red}You have been defeated{Colors.reset}', False]
         else:
             return [f'{Colors.fg.cyan}{source.name} swings at you but misses{Colors.reset}', True]
+    
+    def gain_exp(self, value):
+        print(f"You gain {value} experience!")
+        self.exp += value
+        print(self.exp, self.level * 100)
+        if self.exp >= (self.level * 100):
+            self.level_up()
+    
+    def level_up(self):
+        print(Colors.fg.light_blue + Colors.bold + "You have gained a level!" + Colors.reset)
+        self.max_hp += 50
+        self.current_hp = self.max_hp
+        self.level += 1

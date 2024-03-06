@@ -9,8 +9,8 @@ def build_room(room_id, name, exits, description, room_list):
     room = Location(name, exits, description)
     room_list[room_id] = room
 
-def build_enemy(name, hp, hit_chance, min_damage, max_damage, armor, enemy_list):
-    enemy = Enemy(name, hp, hit_chance, min_damage, max_damage, armor)
+def build_enemy(name, hp, hit_chance, min_damage, max_damage, armor, value, enemy_list):
+    enemy = Enemy(name, hp, hit_chance, min_damage, max_damage, armor, value)
     enemy_list.append(enemy)
 
 def load_file(filename, output):
@@ -22,9 +22,9 @@ def build_map(map_data, game):
         for room_id, room_data in map_data.items():
             build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
 
-def populate_map(enemy_data, game):
-    for enemy_stat in enemy_data:
-        build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['hit_chance'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
+def populate_map(game):
+    for enemy_stat in game.enemy_data:
+        build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['hit_chance'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], enemy_stat['value'], game.enemies)
 
 def combat(command, player, game):
     combat_on = True
@@ -37,9 +37,10 @@ def combat(command, player, game):
                         player_damage = player.deal_damage()
                         enemy_result = enemy.take_damage(player_damage)
                         combat_on = enemy_result[1]
-                        print(enemy_result[0])
+                        print(enemy_result[0])                        
                         if combat_on == False:
-                            game.enemies.remove(enemy)
+                            player.gain_exp(enemy.exp_value)
+                            game.enemies.remove(enemy)                            
                             return
                     enemy_damage = enemy.deal_damage()
                     player_result = player.take_damage(enemy, enemy_damage)
@@ -70,15 +71,16 @@ def prompt(player, game):
             else:
                 print("There is nothing to fight here")
         else:
+            if len(game.enemies) == 0:
+                populate_map(game)
             game.move(command)
 
 def main():
     game = Game()
     player = Player("Testman")
     map_data = load_file("data/rooms.json", "rooms")
-    enemy_data = load_file("data/enemies.json", "enemies")
+    game.enemy_data = load_file("data/enemies.json", "enemies")
     build_map(map_data, game)
-    populate_map(enemy_data, game)
     print(game.render_room_description(game.current_location))
     prompt(player, game)
 

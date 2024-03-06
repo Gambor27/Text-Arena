@@ -5,12 +5,10 @@ class Game:
     def __init__(self):
         self.rooms = {}
         self.enemies = []
+        self.enemy_data = None
         self.current_location = 0
     
-    
-    def get_enemies_at_location(self, room_id):
-        return self.enemy_locations.get(room_id, [])
-    
+
     def move(self, direction):
         current_room = self.rooms[self.current_location]
         if direction in current_room.exits:
@@ -18,8 +16,6 @@ class Game:
             print(self.render_room_description(self.current_location))
             if self.current_location == 1 and self.enemies:
                 print(self.render_enemies())
-            elif self.current_location == 1 and self.enemies is False:
-                enemy_data = load_file("data/enemies.json", "enemies")
         else:
             print("You cannot go that way.")
     

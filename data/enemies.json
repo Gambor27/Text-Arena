@@ -5,14 +5,16 @@
         "hit_chance": 0.5,
         "min_damage": 5,
         "max_damage": 10,
-        "armor": 0
+        "armor": 0,
+        "value": 50
       },{
         "name": "Goblin2",
         "hp": 25,
         "hit_chance": 0.5,
         "min_damage": 5,
         "max_damage": 10,
-        "armor": 0
+        "armor": 0,
+        "value": 50
       }
     ]
   }

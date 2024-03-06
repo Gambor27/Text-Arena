@@ -2,7 +2,7 @@ import random
 from classes.colors import Colors
 
 class Enemy:
-    def __init__(self, name, hp, hit_chance, min_damage, max_damage, armor):
+    def __init__(self, name, hp, hit_chance, min_damage, max_damage, armor, value):
         self.name = name
         self.max_hp = hp
         self.current_hp = hp
@@ -10,6 +10,7 @@ class Enemy:
         self.min_damage = min_damage
         self.max_damage = max_damage
         self.armor = armor
+        self.exp_value = value
 
     def deal_damage(self):
         if random.randint(0,100) < (self.hit_chance * 100):
