@@ -3,7 +3,7 @@ from classes.player import Player
 from classes.locations import Location
 from classes.game import Game
 from classes.enemies import Enemy
-import json
+import json, time
 
 def build_room(room_id, name, exits, description, room_list):
     room = Location(name, exits, description)
@@ -26,12 +26,36 @@ def populate_map(enemy_data, game):
     for enemy_stat in enemy_data:
         build_enemy(enemy_stat['name'], enemy_stat['hp'], enemy_stat['hit_chance'], enemy_stat['min_damage'], enemy_stat['max_damage'], enemy_stat['armor'], game.enemies)
 
+def combat(command, player, game):
+    combat_on = True
+    for enemy in game.enemies:
+        if command[1] == enemy.name:
+            while combat_on == True:
+                time.sleep(0.5)
+                for enemy in game.enemies:
+                    if command[1] == enemy.name:
+                        player_damage = player.deal_damage()
+                        enemy_result = enemy.take_damage(player_damage)
+                        combat_on = enemy_result[1]
+                        print(enemy_result[0])
+                        if combat_on == False:
+                            game.enemies.remove(enemy)
+                            return
+                    enemy_damage = enemy.deal_damage()
+                    player_result = player.take_damage(enemy, enemy_damage)
+                    combat_on = player_result[1]
+                    print(player_result[0])
+                    if combat_on == False:
+                        return
+    print(f"{command[1]} is not here")
+
+
+
+
 
 def prompt(player, game):
     while 1 > 0:
-        command = input(Colors.fg.green + 
-                        f'[{player.name}]:' +
-                        Colors.reset)
+        command = input(Colors.fg.green + f'[{player.name}: {Colors.reset} {player.current_hp} \\ {player.max_hp}]:')
         parsed = command.split()
         if command == "exit":
             break
@@ -40,6 +64,11 @@ def prompt(player, game):
                 game.look(parsed[1])
             else:
                 game.look()
+        elif parsed[0] == "fight":
+            if game.current_location == 1:
+                combat(parsed, player, game)
+            else:
+                print("There is nothing to fight here")
         else:
             game.move(command)
 
