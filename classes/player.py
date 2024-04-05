@@ -23,17 +23,16 @@ class Player:
         if damage:
             if damage < self.current_hp:
                 self.current_hp -= (damage - self.armor)
-                return [f'{Colors.fg.light_red}{source.name} strikes you for {damage} points of damage{Colors.reset}', True]
+                return [f'{Colors.fg.light_red}The {source.name} strikes you for {damage} points of damage{Colors.reset}', True]
             elif damage > self.current_hp:
                 self.current_hp = 1
-                return [f'{Colors.bg.red}You have been defeated{Colors.reset}', False]
+                return [f'{Colors.bg.red}You have been defeated!{Colors.reset}', False]
         else:
-            return [f'{Colors.fg.cyan}{source.name} swings at you but misses{Colors.reset}', True]
+            return [f'{Colors.fg.cyan}The {source.name} swings at you but misses{Colors.reset}', True]
     
     def gain_exp(self, value):
         print(f"You gain {value} experience!")
         self.exp += value
-        print(self.exp, self.level * 100)
         if self.exp >= (self.level * 100):
             self.level_up()
     

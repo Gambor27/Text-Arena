@@ -5,8 +5,8 @@ from classes.game import Game
 from classes.enemies import Enemy
 import json, time
 
-def build_room(room_id, name, exits, description, room_list):
-    room = Location(name, exits, description)
+def build_room(room_id, name, exits, enemies, description, room_list):
+    room = Location(name, exits, enemies, description)
     room_list[room_id] = room
 
 def build_enemy(name, hp, hit_chance, min_damage, max_damage, armor, value, enemy_list):
@@ -20,7 +20,7 @@ def load_file(filename, output):
 
 def build_map(map_data, game):
         for room_id, room_data in map_data.items():
-            build_room(int(room_id), room_data['name'], room_data['exits'], room_data['description'], game.rooms)
+            build_room(int(room_id), room_data['name'], room_data['exits'], room_data['enemies'], room_data['description'], game.rooms)
 
 def populate_map(game):
     for enemy_stat in game.enemy_data:
@@ -51,30 +51,33 @@ def combat(command, player, game):
                         return
     print(f"{command[1]} is not here")
 
-
-
-
-
 def prompt(player, game):
-    while 1 > 0:
-        command = input(Colors.fg.green + f'[{player.name}: {Colors.reset} {player.current_hp} \\ {player.max_hp}]:')
-        parsed = command.split()
-        if command == "exit":
-            break
-        elif parsed[0] == "look":
-            if len(parsed) > 1:
-                game.look(parsed[1])
-            else:
-                game.look()
-        elif parsed[0] == "fight":
+    running = 1
+    while running == 1:
+        fullCommand = getInput(player)
+        firstCommand = fullCommand[0]
+        if firstCommand in ["exit","quit","q","close"]:
+            running = 0
+        elif firstCommand in ["look", "l"]:
+            game.look(fullCommand)
+        elif firstCommand in ["fight","attack","a"]:
             if game.current_location == 1:
-                combat(parsed, player, game)
+                combat(fullCommand, player, game)
             else:
                 print("There is nothing to fight here")
-        else:
-            if len(game.enemies) == 0:
+        elif firstCommand in game.directions:
+            if game.spawn_enemies(fullCommand):
                 populate_map(game)
-            game.move(command)
+            game.move(fullCommand)
+        else:
+            print(Colors.fg.light_red + "Unknown command")
+            
+
+def getInput(player):
+    command = input(Colors.fg.green + f'[{player.name}: {Colors.reset} {player.current_hp} \\ {player.max_hp}]:')
+    commandLower = command.lower()
+    parsed = commandLower.split()
+    return parsed
 
 def main():
     game = Game()

@@ -7,9 +7,11 @@ class Game:
         self.enemies = []
         self.enemy_data = None
         self.current_location = 0
+        self.directions = ["north", "south", "east", "west"]
     
 
-    def move(self, direction):
+    def move(self, command):
+        direction = command[0]
         current_room = self.rooms[self.current_location]
         if direction in current_room.exits:
             self.current_location = current_room.exits[direction]
@@ -20,7 +22,10 @@ class Game:
         else:
             print("You cannot go that way.")
     
-    def look(self, direction=None):
+    def look(self, command):
+        direction = None
+        if len(command) > 1:
+            direction = command[1]
         current_room = self.rooms[self.current_location]
         if direction in current_room.exits:
             print(self.render_room_description(current_room.exits[direction]))
@@ -34,6 +39,15 @@ class Game:
             print(self.render_directions())
         else:
             print(f"There is nothing to see to the {direction}.")
+    
+    def spawn_enemies(self, command):
+        current_room = self.rooms[self.current_location]
+        direction = command[0]
+        new_room_id = current_room.exits[direction]
+        new_room = self.rooms[new_room_id]
+        if new_room.enemies == 0:
+            return True
+        return False
     
     def render_room_description(self, room_id):
         return (Colors.fg.cyan + Colors.bold + 

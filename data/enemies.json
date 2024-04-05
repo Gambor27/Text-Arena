@@ -1,6 +1,6 @@
 {
     "enemies": [{
-        "name": "Goblin",
+        "name": "goblin",
         "hp": 25,
         "hit_chance": 0.5,
         "min_damage": 5,
@@ -8,7 +8,7 @@
         "armor": 0,
         "value": 50
       },{
-        "name": "Goblin2",
+        "name": "hound",
         "hp": 25,
         "hit_chance": 0.5,
         "min_damage": 5,
