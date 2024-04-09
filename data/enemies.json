@@ -3,18 +3,27 @@
         "name": "goblin",
         "hp": 25,
         "hit_chance": 0.5,
-        "min_damage": 5,
-        "max_damage": 10,
+        "min_damage": 10,
+        "max_damage": 15,
         "armor": 0,
         "value": 50
       },{
         "name": "hound",
-        "hp": 25,
+        "hp": 15,
         "hit_chance": 0.5,
-        "min_damage": 5,
-        "max_damage": 10,
+        "min_damage": 20,
+        "max_damage": 25,
         "armor": 0,
         "value": 50
+      },
+      {
+        "name": "ogre",
+        "hp": 50,
+        "hit_chance": 0.5,
+        "min_damage": 10,
+        "max_damage": 15,
+        "armor": 0,
+        "value": 100
       }
     ]
   }

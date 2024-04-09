@@ -1,5 +1,6 @@
 from classes.colors import Colors
-import json
+import random
+#import json
 
 class Game:
     def __init__(self):
@@ -7,16 +8,16 @@ class Game:
         self.enemies = []
         self.enemy_data = None
         self.current_location = 0
-        self.directions = ["north", "south", "east", "west"]
     
 
     def move(self, command):
         direction = command[0]
         current_room = self.rooms[self.current_location]
+        new_room = self.rooms[current_room.exits[direction]]
         if direction in current_room.exits:
             self.current_location = current_room.exits[direction]
             print(self.render_room_description(self.current_location))
-            if self.current_location == 1 and self.enemies:
+            if new_room.enemies:
                 print(self.render_enemies())
             print(self.render_directions())
         else:
@@ -29,12 +30,12 @@ class Game:
         current_room = self.rooms[self.current_location]
         if direction in current_room.exits:
             print(self.render_room_description(current_room.exits[direction]))
-            if current_room.exits[direction] == 1 and len(self.enemies) > 0:
+            if len(current_room.enemies) > 0:
                 print(self.render_enemies())
             print(self.render_directions())
         elif direction is None:
             print(self.render_room_description(self.current_location))
-            if self.current_location == 1 and len(self.enemies) > 0:
+            if len(current_room.enemies) > 0:
                 print(self.render_enemies())
             print(self.render_directions())
         else:
@@ -43,11 +44,15 @@ class Game:
     def spawn_enemies(self, command):
         current_room = self.rooms[self.current_location]
         direction = command[0]
-        new_room_id = current_room.exits[direction]
-        new_room = self.rooms[new_room_id]
-        if new_room.enemies == 0:
-            return True
-        return False
+        new_enemy = []
+        new_room = self.rooms[current_room.exits[direction]]
+        if len(new_room.enemies) < new_room.max_enemies:
+            enemy_index = random.randint(0,len(self.enemies) - 1)
+            if enemy_index == len(self.enemies) - 1:
+                new_enemy = self.enemies[enemy_index:]
+            else:
+                new_enemy = self.enemies[enemy_index:enemy_index + 1]
+            new_room.enemies += new_enemy
     
     def render_room_description(self, room_id):
         return (Colors.fg.cyan + Colors.bold + 
@@ -65,6 +70,7 @@ class Game:
 
     def render_enemies(self):
         also_here = ""
-        for enemy in self.enemies:
+        current_room = self.rooms[self.current_location]
+        for enemy in current_room.enemies:
             also_here += enemy.name + " "
         return(Colors.fg.purple + Colors.bold + "Also here: " + Colors.reset + Colors.fg.red + also_here + Colors.reset)

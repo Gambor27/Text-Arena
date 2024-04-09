@@ -21,10 +21,10 @@ class Enemy:
     def take_damage(self, damage):
         if damage:
             damage_inflicted = damage - self.armor
-            if damage < self.current_hp:
-                self.current_hp -= (damage - self.armor)
-                return [f'{Colors.fg.light_red}You hit the {self.name} for {damage} points of damage{Colors.reset}', True]
+            if damage_inflicted < self.current_hp:
+                self.current_hp -= (damage_inflicted)
+                return [f'{Colors.fg.light_red}You hit the {self.name} for {damage_inflicted} points of damage{Colors.reset}', True]
             elif damage > self.current_hp:
-                return [f'{Colors.fg.blue}You have defeated the {self.name}{Colors.reset}', False]
+                return [f'{Colors.fg.purple}You have defeated the {self.name}{Colors.reset}', False]
         else:
             return [f'{Colors.fg.cyan}You swing at the {self.name} you but miss{Colors.reset}', True]
