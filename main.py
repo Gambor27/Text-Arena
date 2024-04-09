@@ -29,7 +29,7 @@ def populate_enemies(game):
 def combat(command, player, game):
     combat_on = True
     current_room = game.rooms[game.current_location]
-    for enemy in game.enemies:
+    for enemy in current_room.enemies:
         if command[1] == enemy.name:
             while combat_on == True:
                 time.sleep(0.5)
@@ -67,7 +67,7 @@ def prompt(player, game):
         elif first_command in ["look", "l"]:
             game.look(full_command)
         elif first_command in ["fight","attack","a"]:
-            if game.current_location == 1:
+            if game.rooms[game.current_location].enemies:
                 combat(full_command, player, game)
             else:
                 print("There is nothing to fight here")
