@@ -77,7 +77,6 @@ def prompt(player, game):
         else:
             print(Colors.fg.light_red + "Unknown command")
             
-
 def getInput(player):
     command = input(Colors.fg.green + f'[{player.name}: {Colors.reset} {player.current_hp} \\ {player.max_hp}]:')
     commandLower = command.lower()
