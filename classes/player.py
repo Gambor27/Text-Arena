@@ -2,7 +2,7 @@ from classes.colors import Colors
 import random
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, job):
         self.name = name
         self.max_hp = 100
         self.current_hp = 100

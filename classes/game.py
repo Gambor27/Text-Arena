@@ -19,7 +19,7 @@ class Game:
             print(self.render_room_description(self.current_location))
             if new_room.enemies:
                 print(self.render_enemies())
-            print(self.render_directions())
+            print(self.render_directions(self.current_location))
         else:
             print("You cannot go that way.")
     
@@ -32,7 +32,7 @@ class Game:
             print(self.render_room_description(current_room.exits[direction]))
             if len(current_room.enemies) > 0:
                 print(self.render_enemies())
-            print(self.render_directions())
+            print(self.render_directions(current_room.exits[direction]))
         elif direction is None:
             print(self.render_room_description(self.current_location))
             if len(current_room.enemies) > 0:
@@ -60,8 +60,8 @@ class Game:
                   Colors.reset + 
                   self.rooms[room_id].description)
     
-    def render_directions(self):
-        current_room = self.rooms[self.current_location]
+    def render_directions(self, room_id):
+        current_room = self.rooms[room_id]
         exits = current_room.exits.keys()
         display = ""
         for exit in exits:

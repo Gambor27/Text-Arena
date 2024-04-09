@@ -3,7 +3,7 @@ from classes.player import Player
 from classes.locations import Location
 from classes.game import Game
 from classes.enemies import Enemy
-import json, time
+import json, time, os
 
 def build_room(room_id, name, exits, enemies, max_enemies, description, room_list):
     room = Location(name, exits, enemies, max_enemies, description)
@@ -57,6 +57,44 @@ def combat(command, player, game):
                         return
     print(f"{command[1]} is not here")
 
+def opening_screen(game):
+    os.system('clear')
+    print(Colors.fg.light_green + "==========Welcome to Text Arena==========")
+    print(Colors.fg.light_green + "==        (N)ew Game    (Q)uit         ==")
+    print(Colors.fg.light_green + "=========================================")
+    command = input(Colors.fg.light_green + "Selection: ")
+    os.system('clear')
+    if command in ["n","N"]:
+        create_player(game)
+    if command in ["q","Q"]:
+        return
+    else:
+        opening_screen(game)
+
+def create_player(game):
+    os.system('clear')
+    job = None
+    name = None
+    while job == None:
+        print(Colors.fg.light_green + "Choose Class:")
+        print(Colors.fg.light_green + "1. Fighter")
+        print(Colors.fg.light_green + "2. Wizard")
+        classChoice = input(Colors.fg.light_green + "Selection: ")
+        if classChoice == "1":
+            print("test")
+            job = "Fighter"
+        elif classChoice == "2":
+            job = "Wizard"
+    while name == None:
+        os.system('clear')
+        name = input(Colors.fg.light_green + "Input Name: ")
+    player = Player(name, job)
+    os.system('clear')
+    print(game.render_room_description(game.current_location))
+    print(game.render_directions(game.current_location))
+    prompt(player, game)
+
+
 def prompt(player, game):
     running = 1
     while running == 1:
@@ -85,14 +123,11 @@ def getInput(player):
 
 def main():
     game = Game()
-    player = Player("Testman")
     map_data = load_file("data/rooms.json", "rooms")
     game.enemy_data = load_file("data/enemies.json", "enemies")
     build_map(map_data, game)
     populate_enemies(game)
-    print(game.render_room_description(game.current_location))
-    print(game.render_directions())
-    prompt(player, game)
+    opening_screen(game)
 
 
 main()
