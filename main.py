@@ -35,7 +35,7 @@ def combat(command, player, game):
                 time.sleep(0.5)
                 for enemy in current_room.enemies:
                     if command[1] == enemy.name:
-                        player_damage = player.deal_damage()
+                        player_damage = player.deal_damage(command)
                         enemy_result = enemy.take_damage(player_damage)
                         if enemy_result[0]:
                             print(enemy_result[0])
@@ -86,19 +86,19 @@ def create_player(game):
         print(Colors.fg.light_green + "2. Thief")
         classChoice = input(Colors.fg.light_green + "Selection: ")
         if classChoice == "1":
-            job = "Fighter"
+            job = "fighter"
         elif classChoice == "2":
-            job = "Thief"
+            job = "thief"
     while name == None:
         os.system('clear')
         name = input(Colors.fg.light_green + "Input Name: ")
-    if job == 'Thief':
+    if job == 'thief':
         hp = 25
         hit = .5
         max_dmg = 20
         min_dmg = 15
         armor = 0
-    if job == 'Fighter':
+    if job == 'fighter':
         hp = 40
         hit = .5
         max_dmg = 15
@@ -120,7 +120,7 @@ def prompt(player, game):
             running = 0
         elif first_command in ["look", "l"]:
             game.look(full_command)
-        elif first_command in ["fight","attack","a"]:
+        elif first_command in player.combat:
             if game.rooms[game.current_location].enemies:
                 combat(full_command, player, game)
             else:

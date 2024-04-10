@@ -13,12 +13,19 @@ class Player:
         self.armor = armor
         self.exp = 0
         self.level = 1
+        self.combat = ["fight","attack","a"]
 
-    def deal_damage(self):
-        if random.randint(0,100) < (self.hit_chance * 100):
-            return random.randint(self.min_damage, self.max_damage)
+    def deal_damage(self, command):
+        if command[0] == "bash":
+            if random.randint(0,100) < (self.hit_chance * 50):
+                return random.randint(self.min_damage * 2, self.max_damage * 3)
+            else:
+                return False
         else:
-            return False
+            if random.randint(0,100) < (self.hit_chance * 100):
+                return random.randint(self.min_damage, self.max_damage)
+            else:
+                return False
     
     def take_damage(self, source, damage):
         if damage:
@@ -39,6 +46,8 @@ class Player:
     
     def level_up(self):
         print(Colors.fg.light_blue + Colors.bold + "You have gained a level!" + Colors.reset)
+        if (self.job == "fighter") & (self.level == 1):
+            self.combat.append("bash")
         self.max_hp += 50
         self.current_hp = self.max_hp
         self.level += 1

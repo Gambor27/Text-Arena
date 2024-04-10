@@ -25,6 +25,6 @@ class Enemy:
                 self.current_hp -= (damage_inflicted)
                 return [f'{Colors.fg.light_red}You hit the {self.name} for {damage_inflicted} points of damage{Colors.reset}', True]
             elif damage > self.current_hp:
-                return [f'{Colors.fg.purple}You have defeated the {self.name}{Colors.reset}', False]
+                return [f'{Colors.fg.light_red}You hit the {self.name} for {damage_inflicted} points of damage.{Colors.reset}\n{Colors.fg.purple}You have defeated the {self.name}{Colors.reset}', False]
         else:
             return [f'{Colors.fg.cyan}You swing at the {self.name} you but miss{Colors.reset}', True]
