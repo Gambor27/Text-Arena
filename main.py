@@ -72,23 +72,39 @@ def opening_screen(game):
         opening_screen(game)
 
 def create_player(game):
-    os.system('clear')
     job = None
     name = None
+    hp = None
+    hit = None
+    max_dmg = None
+    min_dmg = None
+    armor = None
+    os.system('clear')
     while job == None:
         print(Colors.fg.light_green + "Choose Class:")
         print(Colors.fg.light_green + "1. Fighter")
-        print(Colors.fg.light_green + "2. Wizard")
+        print(Colors.fg.light_green + "2. Thief")
         classChoice = input(Colors.fg.light_green + "Selection: ")
         if classChoice == "1":
-            print("test")
             job = "Fighter"
         elif classChoice == "2":
-            job = "Wizard"
+            job = "Thief"
     while name == None:
         os.system('clear')
         name = input(Colors.fg.light_green + "Input Name: ")
-    player = Player(name, job)
+    if job == 'Thief':
+        hp = 25
+        hit = .5
+        max_dmg = 20
+        min_dmg = 15
+        armor = 0
+    if job == 'Fighter':
+        hp = 40
+        hit = .5
+        max_dmg = 15
+        min_dmg = 10
+        armor = 5
+    player = Player(name, job, hp, hit, max_dmg, min_dmg, armor)
     os.system('clear')
     print(game.render_room_description(game.current_location))
     print(game.render_directions(game.current_location))

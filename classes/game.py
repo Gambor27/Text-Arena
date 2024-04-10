@@ -1,6 +1,5 @@
 from classes.colors import Colors
 import random
-#import json
 
 class Game:
     def __init__(self):
@@ -37,7 +36,7 @@ class Game:
             print(self.render_room_description(self.current_location))
             if len(current_room.enemies) > 0:
                 print(self.render_enemies())
-            print(self.render_directions())
+            print(self.render_directions(self.current_location))
         else:
             print(f"There is nothing to see to the {direction}.")
     

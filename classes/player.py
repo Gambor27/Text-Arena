@@ -2,14 +2,15 @@ from classes.colors import Colors
 import random
 
 class Player:
-    def __init__(self, name, job):
+    def __init__(self, name, job, hp, hit_chance, max_damage, min_damage, armor):
         self.name = name
-        self.max_hp = 100
-        self.current_hp = 100
-        self.hit_chance = .75
-        self.max_damage = 15
-        self.min_damage = 5
-        self.armor = 1
+        self.job = job
+        self.max_hp = hp
+        self.current_hp = hp
+        self.hit_chance = hit_chance
+        self.max_damage = max_damage
+        self.min_damage = min_damage
+        self.armor = armor
         self.exp = 0
         self.level = 1
 
