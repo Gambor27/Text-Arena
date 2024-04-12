@@ -12,9 +12,10 @@ class Game:
     def move(self, command):
         direction = command[0]
         current_room = self.rooms[self.current_location]
-        new_room = self.rooms[current_room.exits[direction]]
         if direction in current_room.exits:
+            new_room = self.rooms[current_room.exits[direction]]
             self.current_location = current_room.exits[direction]
+            self.spawn_enemies(command)
             print(self.render_room_description(self.current_location))
             if new_room.enemies:
                 print(self.render_enemies())
@@ -42,16 +43,13 @@ class Game:
     
     def spawn_enemies(self, command):
         current_room = self.rooms[self.current_location]
-        direction = command[0]
-        new_enemy = []
-        new_room = self.rooms[current_room.exits[direction]]
-        if len(new_room.enemies) < new_room.max_enemies:
+        if len(current_room.enemies) < current_room.max_enemies:
             enemy_index = random.randint(0,len(self.enemies) - 1)
             if enemy_index == len(self.enemies) - 1:
                 new_enemy = self.enemies[enemy_index:]
             else:
                 new_enemy = self.enemies[enemy_index:enemy_index + 1]
-            new_room.enemies += new_enemy
+            current_room.enemies += new_enemy
     
     def render_room_description(self, room_id):
         return (Colors.fg.cyan + Colors.bold + 

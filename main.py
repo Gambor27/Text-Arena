@@ -3,6 +3,7 @@ from classes.player import Player
 from classes.locations import Location
 from classes.game import Game
 from classes.enemies import Enemy
+from classes.command import Command
 import json, time, os
 
 def build_room(room_id, name, exits, enemies, max_enemies, description, room_list):
@@ -37,7 +38,7 @@ def combat(command, player, game):
                     if command[1] == enemy.name:
                         player_damage = player.deal_damage(command)
                         enemy_result = enemy.take_damage(player_damage)
-                        if enemy_result[0]:
+                        if enemy_result is not None:
                             print(enemy_result[0])
                         else:
                             print(f'An error occurred while processing damage to enemy, player damage was {player_damage}')
@@ -110,24 +111,26 @@ def create_player(game):
     print(game.render_directions(game.current_location))
     prompt(player, game)
 
-
 def prompt(player, game):
+    command_list = {"look":game.look,
+                    "l":game.look,
+                    "north":game.move,
+                    "south":game.move,
+                    "east":game.move,
+                    "west":game.move}
     running = 1
     while running == 1:
         full_command = getInput(player)
         first_command = full_command[0]
         if first_command in ["exit","quit","q","close"]:
             running = 0
-        elif first_command in ["look", "l"]:
-            game.look(full_command)
+        elif first_command in command_list:
+            command_list[first_command](full_command)
         elif first_command in player.combat:
             if game.rooms[game.current_location].enemies:
                 combat(full_command, player, game)
             else:
                 print("There is nothing to fight here")
-        elif first_command in ["north", "south", "east", "west"]:
-            game.spawn_enemies(full_command)
-            game.move(full_command)
         else:
             print(Colors.fg.light_red + "Unknown command")
             
